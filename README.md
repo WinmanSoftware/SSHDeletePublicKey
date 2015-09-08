@@ -1,4 +1,4 @@
-# SSSDeletePublicKey
+# SSHDeletePublicKey
 Interactively list users and their public keys that the SSH server accepts for Public Key Authentication.
 
 ## Working
