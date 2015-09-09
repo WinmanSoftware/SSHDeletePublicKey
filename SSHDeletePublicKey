@@ -76,7 +76,9 @@ else
             Yes )
               echo "Deleting"
               break;;
-            * ) break ;;
+            * )
+              echo "Exiting without any modifications"
+              break ;;
           esac
         done
         break
