@@ -74,6 +74,10 @@ else
         select yn in "Yes" "No" ; do
           case $yn in
             Yes )
+              # Delete if new_authorized_keys exits
+              if [[ -e "/home/$USERNAME/.ssh/new_authorized_keys" ]]; then
+                rm "/home/$USERNAME/.ssh/new_authorized_keys"
+              fi
               # Write existing contents of authorized_keys to new_authorized_keys
               #  while skipping the key that is to be deleted
               while read pkey_del_line; do
