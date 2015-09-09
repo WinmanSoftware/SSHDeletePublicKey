@@ -8,25 +8,24 @@ USERNAME=""
 id "$1" &> /dev/null
 if [[ $? == 0 ]]; then
     USERNAME=$1
+  else
 
-else
-  # Create array of users in system
-  count=0
-  for u_dir in /home/*; do
-    u_options[$count]=$(echo $u_dir | sed 's_/\home\/__')
-    ((count++))
-  done
+    # Create array of users in system
+    count=0
+    for u_dir in /home/*; do
+      u_options[$count]=$(echo $u_dir | sed 's_/\home\/__')
+      ((count++))
+    done
 
-  echo "Choose the username whose public key that you want to delete: (1-$(((${#u_options[@]}+1))))?"
-  select u_name in "${u_options[@]}" "EXIT/QUIT" ; do
-    if (( REPLY == 1 + ${#u_options[@]} )) ; then
-      exit
-    elif (( REPLY > 0 && REPLY <= ${#u_options[@]} )) ; then
-      USERNAME=$u_name
-      break
-    else
-      echo "Invalid option. Try again."
-    fi
-  done
-
+    echo "Choose the username whose public key that you want to delete: (1-$(((${#u_options[@]}+1))))?"
+    select u_name in "${u_options[@]}" "EXIT/QUIT" ; do
+      if (( REPLY == 1 + ${#u_options[@]} )) ; then
+          exit
+      elif (( REPLY > 0 && REPLY <= ${#u_options[@]} )) ; then
+          USERNAME=$u_name
+          break
+      else
+          echo "Invalid option. Try again."
+      fi
+    done
 fi
