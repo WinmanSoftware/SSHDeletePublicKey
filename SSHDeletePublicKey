@@ -54,4 +54,8 @@ else
       ((pkey_count++))
     fi
   done < "/home/$USERNAME/.ssh/authorized_keys"
+  # If no public keys are present in authorized_keys
+  if [[ pkey_count -eq 0 ]]; then
+    echo "WARNING: NO public keys present in authorized_keys for $USERNAME"
+  fi
 fi
