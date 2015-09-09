@@ -71,6 +71,15 @@ else
         echo "    Key: $pkey_del_bits"
         echo "    Comment: $pkey_del_comment"
         echo "  This process is IRREVERISIBLE. Delete public key?"
+        select yn in "Yes" "No" ; do
+          case $yn in
+            Yes )
+              echo "Deleting"
+              break;;
+            * ) break ;;
+          esac
+        done
+        break
       else
           echo "Invalid option. Try again."
       fi
