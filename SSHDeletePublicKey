@@ -49,7 +49,7 @@ else
       if [[ -z ${pkey_opts[$pkey_count]} ]]; then
         pkey_opts[$pkey_count]="Missing Comment"
       fi
+      ((pkey_count++))
     fi
-    ((pkey_count++))
   done < "/home/$USERNAME/.ssh/authorized_keys"
 fi
