@@ -29,3 +29,12 @@ else
     fi
   done
 fi
+
+echo "For user: $USERNAME, listing public keys..."
+
+# Check is authorized_keys file is present
+if [[ ! -f "/home/$USERNAME/.ssh/authorized_keys" ]]; then
+  echo "WARNING: $USERNAME's authorized_keys file does not exist."
+  echo "No public keys present for deletion."
+
+fi
