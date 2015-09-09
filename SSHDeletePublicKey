@@ -7,7 +7,7 @@ USERNAME=""
 # If username is passed as argument, check if it exists and proceed
 id "$1" &> /dev/null
 if [[ $? == 0 ]]; then
-  USERNAME=$1
+  USERNAME=$(id -nu $1)
 else
 
   # Create array of users in system
