@@ -57,5 +57,23 @@ else
   # If no public keys are present in authorized_keys
   if [[ pkey_count -eq 0 ]]; then
     echo "WARNING: NO public keys present in authorized_keys for $USERNAME"
+  else
+
+    # Show comments of public keys that can be deleted
+    echo "Choose public key to be deleted: (1-$(((${#pkey_opts_comment[@]}+1))))?"
+    select pkey_del_comment in "${pkey_opts_comment[@]}" "EXIT/QUIT" ; do
+      if (( REPLY == 1 + ${#pkey_opts_comment[@]} )) ; then
+        exit
+      elif (( REPLY > 0 && REPLY <= ${#pkey_opts_comment[@]} )) ; then
+        pkey_del_bits=${pkey_opts_bits[(($REPLY-1))]}
+        echo "  Are you sure you want to delete the following key?"
+        echo "    Username: $USERNAME"
+        echo "    Key: $pkey_del_bits"
+        echo "    Comment: $pkey_del_comment"
+        echo "  This process is IRREVERISIBLE. Delete public key?"
+      else
+          echo "Invalid option. Try again."
+      fi
+    done
   fi
 fi
