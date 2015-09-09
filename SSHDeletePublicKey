@@ -43,6 +43,8 @@ else
   while read pkey_line; do
     # Check is key CONTAINS "ssh-" and CONTAINS "=="
     if [[ $pkey_line =~ .*ssh\-.*==.* ]]; then
+      # Extract key bits
+      pkey_opts_bits[$pkey_count]=$(echo $pkey_line | sed 's_^.*ssh\-_ssh\-_' | sed 's_==.*_==_')
       # Extract key comment
       pkey_opts_comment[$pkey_count]=$(echo $pkey_line | sed 's_^.*==__' | sed 's_^\ __' )
       # If key contains no comment
