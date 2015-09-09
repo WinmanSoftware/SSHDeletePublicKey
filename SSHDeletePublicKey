@@ -86,7 +86,12 @@ else
                   echo "$pkey_del_line" >> "/home/$USERNAME/.ssh/new_authorized_keys"
                 fi
               done < "/home/$USERNAME/.ssh/authorized_keys"
-              cat "/home/$USERNAME/.ssh/new_authorized_keys"
+
+              # Swap authorized_keys and new_authorized_keys
+              rm "/home/$USERNAME/.ssh/authorized_keys"
+              mv "/home/$USERNAME/.ssh/new_authorized_keys" "/home/$USERNAME/.ssh/authorized_keys"
+
+              echo "SUCCESS: Key succesfully deleted."
               break;;
             * )
               echo "Exiting without any modifications"
