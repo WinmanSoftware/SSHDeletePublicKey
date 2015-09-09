@@ -74,7 +74,15 @@ else
         select yn in "Yes" "No" ; do
           case $yn in
             Yes )
-              echo "Deleting"
+              # Write existing contents of authorized_keys to new_authorized_keys
+              #  while skipping the key that is to be deleted
+              while read pkey_del_line; do
+                if [[ ! "$pkey_del_line" == *"$pkey_del_bits"* ]]; then
+                  #echo "test" >> "/home/$USERNAME/.ssh/new_authorized_keys"
+                  echo "$pkey_del_line" >> "/home/$USERNAME/.ssh/new_authorized_keys"
+                fi
+              done < "/home/$USERNAME/.ssh/authorized_keys"
+              cat "/home/$USERNAME/.ssh/new_authorized_keys"
               break;;
             * )
               echo "Exiting without any modifications"
