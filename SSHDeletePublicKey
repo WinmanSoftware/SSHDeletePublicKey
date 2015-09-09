@@ -91,6 +91,10 @@ else
               rm "/home/$USERNAME/.ssh/authorized_keys"
               mv "/home/$USERNAME/.ssh/new_authorized_keys" "/home/$USERNAME/.ssh/authorized_keys"
 
+              # Fix file permissions
+              chmod 600 "/home/$USERNAME/.ssh/authorized_keys"
+              chown --quiet "$USERNAME" "/home/$USERNAME/.ssh/authorized_keys"
+              
               echo "SUCCESS: Key succesfully deleted."
               break;;
             * )
