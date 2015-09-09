@@ -45,6 +45,10 @@ else
     if [[ $pkey_line =~ .*ssh\-.*==.* ]]; then
       # Extract key comment
       pkey_opts_comment[$pkey_count]=$(echo $pkey_line | sed 's_^.*==__' | sed 's_^\ __' )
+      # If key contains no comment
+      if [[ -z ${pkey_opts[$pkey_count]} ]]; then
+        pkey_opts[$pkey_count]="Missing Comment"
+      fi
     fi
     ((pkey_count++))
   done < "/home/$USERNAME/.ssh/authorized_keys"
