@@ -11,13 +11,13 @@ if [[ $? == 0 ]]; then
 else
 
   # Create array of users in system
-  count=0
+  u_count=0
   for u_dir in /home/*; do
-    u_options[$count]=$(echo $u_dir | sed 's_/\home\/__')
-    ((count++))
+    u_options[$u_count]=$(echo $u_dir | sed 's_/\home\/__')
+    ((u_count++))
   done
 
-  echo "Choose the username whose public key that you want to delete: (1-$(((${#u_options[@]}+1))))?"
+    echo "Choose the username whose public key that you want to delete: (1-$(((${#u_options[@]}+1))))?"
   select u_name in "${u_options[@]}" "EXIT/QUIT" ; do
     if (( REPLY == 1 + ${#u_options[@]} )) ; then
         exit
@@ -37,4 +37,15 @@ if [[ ! -f "/home/$USERNAME/.ssh/authorized_keys" ]]; then
   echo "WARNING: $USERNAME's authorized_keys file does not exist."
   echo "No public keys present for deletion."
 
+# List public keys in authorized_keys
+else
+  pkey_count=0;
+  while read pkey_line; do
+    # Check is key CONTAINS "ssh-" and CONTAINS "=="
+    if [[ $pkey_line =~ .*ssh\-.*==.* ]]; then
+      # Extract key comment
+      pkey_opts_comment[$pkey_count]=$(echo $pkey_line | sed 's_^.*==__' | sed 's_^\ __' )
+    fi
+    ((pkey_count++))
+  done < "/home/$USERNAME/.ssh/authorized_keys"
 fi
