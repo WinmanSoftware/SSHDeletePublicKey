@@ -17,7 +17,7 @@ else
     ((u_count++))
   done
 
-    echo "Choose the username whose public key that you want to delete: (1-$(((${#u_options[@]}+1))))?"
+  echo "Choose the username whose public key that you want to delete: (1-$(((${#u_options[@]}+1))))?"
   select u_name in "${u_options[@]}" "EXIT/QUIT" ; do
     if (( REPLY == 1 + ${#u_options[@]} )) ; then
         exit
