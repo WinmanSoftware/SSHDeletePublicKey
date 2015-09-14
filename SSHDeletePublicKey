@@ -32,7 +32,7 @@ fi
 
 echo "For user: $USERNAME, listing public keys..."
 
-# Check is authorized_keys file is present
+# Check if authorized_keys file is present
 if [[ ! -f "/home/$USERNAME/.ssh/authorized_keys" ]]; then
   echo "ERROR: $USERNAME's authorized_keys file does not exist"
   echo "No public keys present for deletion"
@@ -41,7 +41,7 @@ if [[ ! -f "/home/$USERNAME/.ssh/authorized_keys" ]]; then
 else
   pkey_count=0;
   while read pkey_line; do
-    # Check is key CONTAINS "ssh-" and CONTAINS "=="
+    # Check if key CONTAINS "ssh-" and CONTAINS "=="
     if [[ $pkey_line =~ .*ssh\-.*==.* ]]; then
       # Extract key bits
       pkey_opts_bits[$pkey_count]=$(echo $pkey_line | sed 's_^.*ssh\-_ssh\-_' | sed 's_==.*_==_')
@@ -84,7 +84,6 @@ else
               #  while skipping the key that is to be deleted
               while read pkey_del_line; do
                 if [[ ! "$pkey_del_line" == *"$pkey_del_bits"* ]]; then
-                  #echo "test" >> "/home/$USERNAME/.ssh/new_authorized_keys"
                   echo "$pkey_del_line" >> "/home/$USERNAME/.ssh/new_authorized_keys"
                 fi
               done < "/home/$USERNAME/.ssh/authorized_keys"
