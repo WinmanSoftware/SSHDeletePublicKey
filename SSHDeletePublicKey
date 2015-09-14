@@ -82,6 +82,7 @@ else
               fi
               # Write existing contents of authorized_keys to new_authorized_keys
               #  while skipping the key that is to be deleted
+              touch "/home/$USERNAME/.ssh/new_authorized_keys"
               while read pkey_del_line; do
                 if [[ ! "$pkey_del_line" == *"$pkey_del_bits"* ]]; then
                   echo "$pkey_del_line" >> "/home/$USERNAME/.ssh/new_authorized_keys"
