@@ -18,14 +18,14 @@ else
   done
 
   echo "Choose the username whose public key that you want to delete: (1-$(((${#u_options[@]}+1))))?"
-  select u_name in "${u_options[@]}" "EXIT/QUIT" ; do
+  select u_name in "${u_options[@]}" "## EXIT/QUIT ##" ; do
     if (( REPLY == 1 + ${#u_options[@]} )) ; then
       exit
     elif (( REPLY > 0 && REPLY <= ${#u_options[@]} )) ; then
       USERNAME=$u_name
       break
     else
-      echo "Invalid option. Try again."
+      echo "Invalid option, try again"
     fi
   done
 fi
@@ -34,8 +34,8 @@ echo "For user: $USERNAME, listing public keys..."
 
 # Check is authorized_keys file is present
 if [[ ! -f "/home/$USERNAME/.ssh/authorized_keys" ]]; then
-  echo "WARNING: $USERNAME's authorized_keys file does not exist."
-  echo "No public keys present for deletion."
+  echo "ERROR: $USERNAME's authorized_keys file does not exist"
+  echo "No public keys present for deletion"
 
 # List public keys in authorized_keys
 else
@@ -49,19 +49,21 @@ else
       pkey_opts_comment[$pkey_count]=$(echo $pkey_line | sed 's_^.*==__' | sed 's_^\ __' )
       # If key contains no comment
       if [[ -z ${pkey_opts_comment[$pkey_count]} ]]; then
-        pkey_opts_comment[$pkey_count]="Missing Comment"
+        pkey_opts_comment[$pkey_count]="*** Missing Comment ***"
       fi
       ((pkey_count++))
     fi
   done < "/home/$USERNAME/.ssh/authorized_keys"
   # If no public keys are present in authorized_keys
   if [[ pkey_count -eq 0 ]]; then
-    echo "WARNING: NO public keys present in authorized_keys for $USERNAME"
+    echo "ERROR: NO public keys present in authorized_keys for $USERNAME"
+    echo "No public keys present for deletion"
+
   else
 
     # Show comments of public keys that can be deleted
     echo "Choose public key to be deleted: (1-$(((${#pkey_opts_comment[@]}+1))))?"
-    select pkey_del_comment in "${pkey_opts_comment[@]}" "EXIT/QUIT" ; do
+    select pkey_del_comment in "${pkey_opts_comment[@]}" "## EXIT/QUIT ##" ; do
       if (( REPLY == 1 + ${#pkey_opts_comment[@]} )) ; then
         exit
       elif (( REPLY > 0 && REPLY <= ${#pkey_opts_comment[@]} )) ; then
@@ -95,7 +97,7 @@ else
               chmod 600 "/home/$USERNAME/.ssh/authorized_keys"
               chown --quiet "$USERNAME" "/home/$USERNAME/.ssh/authorized_keys"
 
-              echo "SUCCESS: Key succesfully deleted."
+              echo "SUCCESS: Key succesfully deleted"
               break;;
             * )
               echo "Exiting without any modifications"
@@ -104,7 +106,7 @@ else
         done
         break
       else
-          echo "Invalid option. Try again."
+          echo "Invalid option, try again"
       fi
     done
   fi
