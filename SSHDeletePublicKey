@@ -20,12 +20,12 @@ else
   echo "Choose the username whose public key that you want to delete: (1-$(((${#u_options[@]}+1))))?"
   select u_name in "${u_options[@]}" "EXIT/QUIT" ; do
     if (( REPLY == 1 + ${#u_options[@]} )) ; then
-        exit
+      exit
     elif (( REPLY > 0 && REPLY <= ${#u_options[@]} )) ; then
-        USERNAME=$u_name
-        break
+      USERNAME=$u_name
+      break
     else
-        echo "Invalid option. Try again."
+      echo "Invalid option. Try again."
     fi
   done
 fi
@@ -94,7 +94,7 @@ else
               # Fix file permissions
               chmod 600 "/home/$USERNAME/.ssh/authorized_keys"
               chown --quiet "$USERNAME" "/home/$USERNAME/.ssh/authorized_keys"
-              
+
               echo "SUCCESS: Key succesfully deleted."
               break;;
             * )
